@@ -20,11 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-/**
- * @author Heng Yu
- * @date 4/9/20 9:33 PM
- */
-
 @Controller
 public class IndexController {
     @Autowired
@@ -44,14 +39,14 @@ public class IndexController {
                         HttpServletRequest request,
                         @RequestParam(value = "latitude", required = false) String latitude,
                         @RequestParam(value = "longitude", required = false) String longitude) {
-        //判断是否从前端收到经纬度，如果收到，标记session为已定位(located)
+        //Determine whether the latitude and longitude are received from the front end, if received, mark the session as located
         if (latitude != null && longitude != null) {
             request.getSession().setAttribute("located", true);
             request.getSession().setAttribute("latitude",latitude);
             request.getSession().setAttribute("longitude",longitude);
         }
 
-        //检查当前session是否已定位，向前端传入flag，以确定是否调用javascript定位代码
+        //Check whether the current session has been located, and pass the flag to the front end to determine whether to call the javascript positioning code
         Boolean located = (Boolean) request.getSession().getAttribute("located");
         if (located != null && located) {
             model.addAttribute("located",  true);
@@ -111,7 +106,7 @@ public class IndexController {
 
     @GetMapping("/sign-out")
     public String signOut(HttpServletRequest request, HttpServletResponse response) {
-        //处理异常
+        //Handle exception
 
         request.getSession().removeAttribute("user");
         Cookie cookie = new Cookie("sw-token", null);
